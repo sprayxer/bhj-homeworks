@@ -25,15 +25,38 @@ class Game {
       При неправильном вводе символа - this.fail();
       DOM-элемент текущего символа находится в свойстве this.currentSymbol.
      */
-    const current = this.currentSymbol;
 
-    function check(e) {
-      console.log(e)
-      console.log(current)
-      current.success()
+    let countdown = () => {
+      const newWord = [...game.querySelectorAll('.symbol')]
+      let N = newWord.length
+      let statusTime = document.querySelector('.status__time')
+      statusTime.textContent = N
+
+      let stop = setInterval(() => {
+        N--
+        statusTime.textContent = N
+
+        if (N === 0) {
+          clearInterval(stop)
+          this.fail()
+          countdown()
+        }
+      }, 1000)
     }
 
-    document.addEventListener('keydown', check)
+    countdown()
+
+    document.onkeydown = (e) => {
+      const currentSymbol = this.currentSymbol;
+      const currentLetter = currentSymbol.textContent
+      const currentClick = e.key
+
+      if (currentLetter.toLowerCase() === currentClick.toLowerCase()) {
+        this.success()
+      } else {
+        this.fail()
+      }
+    }
   }
 
   success() {
@@ -100,4 +123,3 @@ class Game {
 }
 
 new Game(document.getElementById('game'))
-
