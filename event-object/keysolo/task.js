@@ -26,13 +26,14 @@ class Game {
       DOM-элемент текущего символа находится в свойстве this.currentSymbol.
      */
 
+    let stop
     let countdown = () => {
       const newWord = [...game.querySelectorAll('.symbol')]
       let N = newWord.length
       let statusTime = document.querySelector('.status__time')
       statusTime.textContent = N
 
-      let stop = setInterval(() => {
+      stop = setInterval(() => {
         N--
         statusTime.textContent = N
 
@@ -44,19 +45,22 @@ class Game {
       }, 1000)
     }
 
-    countdown()
-
-    document.onkeydown = (e) => {
+    document.addEventListener('keydown', (e) => {
       const currentSymbol = this.currentSymbol;
       const currentLetter = currentSymbol.textContent
       const currentClick = e.key
 
       if (currentLetter.toLowerCase() === currentClick.toLowerCase()) {
+        clearInterval(stop)
         this.success()
+        countdown()
       } else {
+        clearInterval(stop)
         this.fail()
+        countdown()
       }
-    }
+    })
+    countdown()
   }
 
   success() {
