@@ -5,6 +5,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .cart__product {
@@ -87,5 +88,18 @@ body {
 }
 
 .product-shadow {
+  position: absolute;
+}
+
+.basket {
+  background: green;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 150px;
+}
+
+.product__image-basket {
   position: absolute;
 }
