@@ -1,4 +1,56 @@
-const interest = [...document.querySelectorAll('.interest')]
+const checkboxs = document.querySelectorAll('.interest__check')
+
+checkboxs.forEach(elem => {
+    elem.addEventListener('change', (e) => {
+        let parent = elem
+        const interests = elem.closest('.interest').querySelector('.interests')
+        if (elem.checked == true) {
+            if (interests) {
+                [...interests.querySelectorAll('.interest__check')].forEach(i => i.checked = true)
+            }
+            while (!parent.classList.contains('interests_main')) {
+                if (parent.classList.contains('interests')) {
+                    const children = [...parent.querySelectorAll('.interest__check')]
+                    const parentFirst = parent.closest('.interest').querySelector('.interest__check')
+                    if (children.some(i => i.checked == false)) {
+                        parentFirst.indeterminate = true
+                    } else if (children.every(i => i.checked == true)) {
+                        parentFirst.indeterminate = false
+                        parentFirst.checked = true
+                    }
+                }
+                parent = parent.parentElement
+            }
+        } else {
+            if (interests) {
+                [...interests.querySelectorAll('.interest__check')].forEach(i => i.checked = false)
+            }
+            while (!parent.classList.contains('interests_main')) {
+                if (parent.classList.contains('interests')) {
+                    const children = [...parent.querySelectorAll('.interest__check')]
+                    const parentFirst = parent.closest('.interest').querySelector('.interest__check')
+                    if (children.some(i => i.checked == true)) {
+                        parentFirst.checked = false
+                        parentFirst.indeterminate = true
+                    } else if (children.every(i => i.checked == false)) {
+                        parentFirst.indeterminate = false
+                    }
+                }
+                parent = parent.parentElement
+            }
+        }
+    })
+})
+
+
+
+
+/* !!!   Старые способы решениязадания   !!! */
+
+/* !!!   Первый способ решения   !!! */
+
+
+/*const interest = [...document.querySelectorAll('.interest')]
 const parents = []
 interest.forEach(el => {
     if (el.getElementsByTagName('ul').length != 0) {
@@ -9,7 +61,7 @@ interest.forEach(el => {
 for (let i = 0; i < parents.length; i++) {
     const checkboxFirst = parents[i].querySelector('.interest__check')
     const checkboxAll = parents[i].querySelectorAll('.interest__check')
-    checkboxFirst.onchange = () => {
+    checkboxFirst.onchange = (e) => {
         checkboxAll.forEach(el => {
             if (checkboxFirst.checked === true) {
                 el.checked = true
@@ -18,14 +70,13 @@ for (let i = 0; i < parents.length; i++) {
             }
         })
     }
-}
+}*/
 
 
 
-/* Второй вариант выполениния задания */
+/* !!!   Второй способ решения   !!! */
 
 /*
-
 const interest = [...document.querySelectorAll('.interest')]
 
 interest.forEach(el => {
@@ -39,5 +90,4 @@ interest.forEach(el => {
         }
     }
 })
-
 */
